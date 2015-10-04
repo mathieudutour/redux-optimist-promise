@@ -4,7 +4,7 @@ redux-optimist-promise
 [![build status](https://img.shields.io/travis/mathieudutour/redux-optimist-promise/master.svg?style=flat-square)](https://travis-ci.org/mathieudutour/redux-optimist-promise)
 [![npm version](https://img.shields.io/npm/v/redux-optimist-promise.svg?style=flat-square)](https://www.npmjs.com/package/redux-optimist-promise)
 
-[FSA](https://github.com/acdlite/flux-standard-action)-compliant promise [middleware](http://rackt.github.io/redux/docs/advanced/Middleware.html) for Redux with simple behaviour with minimal boilerplate declarations.
+[FSA](https://github.com/acdlite/flux-standard-action)-compliant promise [middleware](http://rackt.github.io/redux/docs/advanced/Middleware.html) middleware for Redux and optimistically apply actions that can be later commited or reverted with simple behaviour with minimal boilerplate declarations.
 
 ```js
 npm install --save redux-optimist-promise
