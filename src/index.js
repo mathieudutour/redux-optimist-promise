@@ -26,7 +26,7 @@ export function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejected
       return next(action);
     }
 
-    const isOptimist = action.payload.optimist;
+    const isOptimist = action.meta.optimist;
 
     let transactionID;
 
@@ -41,21 +41,28 @@ export function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejected
       type: action.type,
       payload: {
         ...action.payload
+      },
+      meta: {
+        ...action.meta
       }
     };
 
     if (isOptimist) {
       // Adding optimistic meta
       newAction.optimist = {type: BEGIN, id: transactionID};
+      delete newAction.meta.optimist;
     }
 
-    if (Object.keys(newAction.payload).length === isOptimist ? 2 : 1) {
+    if (Object.keys(newAction.meta).length === 0) {
+      delete newAction.meta;
+    }
+
+    if (Object.keys(newAction.payload).length === 1) {
       // No arguments beside promise, remove all payload
       delete newAction.payload;
     } else {
       // Other arguments, delete promise and optimist only
       delete newAction.payload.promise;
-      delete newAction.payload.optimist;
     }
 
     dispatch(newAction);

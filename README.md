@@ -91,9 +91,11 @@ export function addTodo(text) {
     type: 'ADD_TODO',
     payload: {
       promise: loadTodoServiceAndReturnPromise(text),
-      text,
-      optimist: true,
+      text
     },
+    meta: {
+      optimist: true
+    }
   };
 }
 ```
