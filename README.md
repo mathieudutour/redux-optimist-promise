@@ -92,8 +92,8 @@ export function addTodo(text) {
     payload: {
       promise: loadTodoServiceAndReturnPromise(text),
       text,
+      optimist: true,
     },
-    optimist: true
   };
 }
 ```

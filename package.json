@@ -1,6 +1,6 @@
 {
   "name": "redux-optimist-promise",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Promise middleware for Redux and optimistically apply actions that can be later commited or reverted with simple behaviour with minimal boilerplate declarations.",
   "main": "lib/index.js",
   "scripts": {
