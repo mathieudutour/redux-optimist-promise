@@ -19,6 +19,6 @@ test-watch: lint
 	NODE_ENV=test $(BIN)/mocha $(MOCHA_ARGS) -w $(MOCHA_TARGET)
 
 lint:
-	$(BIN)/eslint src
+	$(BIN)/eslint src && $(BIN)/eslint tests
 
 PHONY: build clean test test-watch lint
