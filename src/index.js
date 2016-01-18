@@ -17,7 +17,7 @@ export function reject(actionName) {
   return actionName + REJECTED_NAME;
 }
 
-export function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
+export default function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
   [RESOLVED_NAME, REJECTED_NAME] = [resolvedName, rejectedName];
   let nextTransactionID = 0;
   return ({ dispatch }) => next => action => {
@@ -26,7 +26,7 @@ export function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejected
       return next(action);
     }
 
-    const isOptimist = action.meta.optimist;
+    const isOptimist = (action.meta || {}).optimist;
 
     let transactionID;
 
@@ -65,26 +65,42 @@ export function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejected
       delete newAction.payload.promise;
     }
 
-    dispatch(newAction);
+    const skipOptimist = (action.meta || {}).skipOptimist;
+
+    if (!skipOptimist) {
+      dispatch(newAction);
+    }
 
     // (2) Listen to promise and dispatch payload with new actionName
     return action.payload.promise.then(
       (result) => {
-        dispatch({
-          type: resolve(action.type, resolvedName),
+        const actionToDispatch = {
+          type: resolve(action.type),
           payload: result,
-          meta: newAction.payload,
-          optimist: isOptimist ? {type: COMMIT, id: transactionID} : false
-        });
+          meta: {
+            ...newAction.meta,
+            ...newAction.payload
+          }
+        };
+        if (isOptimist) {
+          actionToDispatch.optimist = {type: COMMIT, id: transactionID};
+        }
+        dispatch(actionToDispatch);
         return result;
       },
       (error) => {
-        dispatch({
-          type: reject(action.type, rejectedName),
+        const actionToDispatch = {
+          type: reject(action.type),
           payload: error,
-          meta: newAction.payload,
-          optimist: isOptimist ? {type: REVERT, id: transactionID} : false
-        });
+          meta: {
+            ...newAction.meta,
+            ...newAction.payload
+          }
+        };
+        if (isOptimist) {
+          actionToDispatch.optimist = {type: REVERT, id: transactionID};
+        }
+        dispatch(actionToDispatch);
         return error;
       }
     );
