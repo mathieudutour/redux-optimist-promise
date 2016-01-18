@@ -1,4 +1,4 @@
-import promiseMiddleware from '../';
+import optimistPromiseMiddleware from '../';
 import { spy } from 'sinon';
 import { resolve, reject } from '../';
 
@@ -18,17 +18,17 @@ describe('before promiseMiddleware is called', () => {
   });
 });
 
-describe('promiseMiddleware', () => {
-  let baseDispatch;
+describe('promise handling middleware', () => {
+  let next;
   let dispatch;
   let foobar;
   let err;
 
   beforeEach(() => {
-    baseDispatch = spy();
+    next = spy();
     dispatch = function d(action) {
-      const methods = { dispatch: d, getState: noop };
-      return metaMiddleware()(promiseMiddleware()(methods)(baseDispatch))(action);
+      const store = { dispatch: d, getState: noop };
+      return metaMiddleware()(optimistPromiseMiddleware()(store)(next))(action);
     };
     foobar = { foo: 'bar' };
     err = new Error();
@@ -41,9 +41,9 @@ describe('promiseMiddleware', () => {
       }
     });
 
-    expect(baseDispatch.calledOnce).to.be.true;
+    expect(next.calledOnce).to.be.true;
 
-    expect(baseDispatch.firstCall.args[0]).to.deep.equal({
+    expect(next.firstCall.args[0]).to.deep.equal({
       type: 'ACTION_TYPE'
     });
   });
@@ -57,9 +57,9 @@ describe('promiseMiddleware', () => {
       }
     });
 
-    expect(baseDispatch.calledOnce).to.be.true;
+    expect(next.calledOnce).to.be.true;
 
-    expect(baseDispatch.firstCall.args[0]).to.deep.equal({
+    expect(next.firstCall.args[0]).to.deep.equal({
       type: 'ACTION_TYPE',
       payload: {
         foo: 'bar'
@@ -76,9 +76,9 @@ describe('promiseMiddleware', () => {
       }
     });
 
-    expect(baseDispatch.calledTwice).to.be.true;
+    expect(next.calledTwice).to.be.true;
 
-    expect(baseDispatch.secondCall.args[0]).to.deep.equal({
+    expect(next.secondCall.args[0]).to.deep.equal({
       type: resolve('ACTION_TYPE_RESOLVE'),
       payload: foobar,
       meta: {
@@ -97,9 +97,9 @@ describe('promiseMiddleware', () => {
       }
     });
 
-    expect(baseDispatch.calledTwice).to.be.true;
+    expect(next.calledTwice).to.be.true;
 
-    expect(baseDispatch.secondCall.args[0]).to.deep.equal({
+    expect(next.secondCall.args[0]).to.deep.equal({
       type: reject('ACTION_TYPE_REJECT'),
       payload: err,
       meta: {
@@ -156,12 +156,12 @@ describe('promiseMiddleware', () => {
 
   it('ignores non-promises', async () => {
     dispatch(foobar);
-    expect(baseDispatch.calledOnce).to.be.true;
-    expect(baseDispatch.firstCall.args[0]).to.equal(foobar);
+    expect(next.calledOnce).to.be.true;
+    expect(next.firstCall.args[0]).to.equal(foobar);
 
     dispatch({ type: 'ACTION_TYPE', payload: foobar });
-    expect(baseDispatch.calledTwice).to.be.true;
-    expect(baseDispatch.secondCall.args[0]).to.deep.equal({
+    expect(next.calledTwice).to.be.true;
+    expect(next.secondCall.args[0]).to.deep.equal({
       type: 'ACTION_TYPE',
       payload: foobar
     });
@@ -170,7 +170,7 @@ describe('promiseMiddleware', () => {
   it('starts async dispatches from beginning of middleware chain', async () => {
     dispatch({ type: GIVE_ME_META });
     dispatch({ type: GIVE_ME_META });
-    expect(baseDispatch.args.map(args => args[0].meta)).to.eql([
+    expect(next.args.map(args => args[0].meta)).to.eql([
       'here you go',
       'here you go'
     ]);
