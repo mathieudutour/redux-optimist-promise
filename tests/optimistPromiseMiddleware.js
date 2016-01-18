@@ -1,6 +1,6 @@
-import optimistPromiseMiddleware from '../';
+import optimistPromiseMiddleware from '../src/';
 import { spy } from 'sinon';
-import { resolve, reject } from '../';
+import { resolve, reject } from '../src/';
 
 function noop() {}
 const GIVE_ME_META = 'GIVE_ME_META';

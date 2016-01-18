@@ -2,9 +2,9 @@ BIN=node_modules/.bin
 
 MOCHA_ARGS= --compilers js:babel/register \
 		--recursive \
-		--require src/__tests__/init.js \
-		src/**/*-test.js
-MOCHA_TARGET=src/**/*-test.js
+		--require tests/init.js \
+		tests/*.js
+MOCHA_TARGET=tests/*.js
 
 build:
 	$(BIN)/babel src --out-dir lib
