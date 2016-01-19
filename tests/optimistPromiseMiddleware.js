@@ -68,11 +68,11 @@ describe('optimsit promise handling middleware', () => {
     });
   });
 
-  it('does NOT dispatch first action before promise if skipOptimist meta', () => {
-    dispatch({
+  it('does NOT dispatch first action before promise if skipOptimist meta', async () => {
+    await dispatch({
       type: 'ACTION_TYPE',
       payload: {
-        promise: {then(cb) { return cb(foobar); }}
+        promise: Promise.resolve(foobar)
       },
       meta: {
         skipOptimist: true

@@ -3,7 +3,7 @@
   "version": "0.3.1",
   "description": "Promise middleware for Redux with automatic binding for redux-optimist",
   "main": "lib/index.js",
-  "files": ["lib/index.js"],
+  "files": ["lib"],
   "scripts": {
     "test": "make test",
     "prepublish": "make clean build"

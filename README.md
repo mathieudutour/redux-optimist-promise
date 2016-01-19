@@ -105,4 +105,5 @@ composeStoreWithMiddleware = applyMiddleware(
 then resolved/rejected promised will trigger actions as `'LOAD_USER_MY_RESOLVED'` and `'LOAD_USER_MY_REJECTED'` instead of the default ones `'LOAD_USER_RESOLVED'` and `'LOAD_USER_REJECTED'`.
 
 ## License
-MIT
+
+  MIT
