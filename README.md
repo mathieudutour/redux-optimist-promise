@@ -65,7 +65,7 @@ Assuming promise resolves with `{ id: '1', name: 'use redux-optimist-promise' }`
 ```js
 {
 	type: 'ADD_TODO_RESOLVED',
-	payload: { id: '1', name: 'Mathieu Dutour' },
+	payload: { id: '1', name: 'use redux-optimist-promise' },
 	meta: {
     payload {
       text: 'use redux-optimist-promise'
