@@ -17,6 +17,14 @@ export function reject(actionName) {
   return actionName + REJECTED_NAME;
 }
 
+export function unresolve(resolvedActionName) {
+  return resolvedActionName.split(RESOLVED_NAME)[0];
+}
+
+export function unreject(rejectedActionName) {
+  return rejectedActionName.split(REJECTED_NAME)[0];
+}
+
 export default function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
   [RESOLVED_NAME, REJECTED_NAME] = [resolvedName, rejectedName];
   let nextTransactionID = 0;
