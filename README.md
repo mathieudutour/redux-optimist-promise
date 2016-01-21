@@ -29,7 +29,7 @@ To add the optimist tag, add a `optimist` field in the `meta` of the action.
 
 The pending action is dispatched immediately, with `type` the same as the original dispatching action with all original `payload` properties apart from the `promise` as the payload object (those are useful for optimistic updates). The resolve action is dispatched only if the promise is resolved, e.g., if it was successful; and the rejected action is dispatched only if the promise is rejected, e.g., if an error occurred.
 
-Both fullfilled actions (resolved and rejected) will be dispatched with the result of the promise as the payload object and all other remaining properties will be dispatched inside the `meta` property. More specifically, in the case of a rejected promise, an `error` is returned in the payload property. Also those fullfiled actions will have the original `type` added by a suffix (default is `_RESOLVED` for resolved and `_REJECTED` for rejected).
+Both fulfilled actions (resolved and rejected) will be dispatched with the result of the promise as the payload object and all other remaining properties will be dispatched inside the `meta` property. More specifically, in the case of a rejected promise, an `error` is returned in the payload property. Also those fulfilled actions will have the original `type` added by a suffix (default is `_RESOLVED` for resolved and `_REJECTED` for rejected).
 
 Example:
 
