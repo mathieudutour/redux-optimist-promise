@@ -95,7 +95,7 @@ The middleware doesn't include the original promise in the 3 processed actions a
 
 ## Configuration
 
-You can configure the string being added to the action type when resolved or rejected by declaring it when initialiazing the middleware, so considering the example above, if you do
+You can configure the string being added to the action type when resolved or rejected by declaring it when initializing the middleware, so considering the example above, if you do
 
 ```js
 import {optimistPromiseMiddleware} from 'redux-optimist-promise';
