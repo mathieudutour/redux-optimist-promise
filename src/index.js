@@ -71,16 +71,33 @@ export default function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, 
       dispatch(newAction);
     }
 
+    // Create a base for the next action containing the metadata.
+    let nextActionBase = {
+      meta: {
+        ...newAction.meta,
+        payload: {
+          ...newAction.payload
+        }
+      }
+    };
+
+    if (Object.keys(nextActionBase.meta.payload).length === 0) {
+      // No arguments were given beside the promise, no need to include them
+      // in the meta.
+      delete nextActionBase.meta.payload;
+    }
+    if (Object.keys(nextActionBase.meta).length === 0) {
+      // No meta was included either, remove all meta.
+      delete nextActionBase.meta;
+    }
+
     // (2) Listen to promise and dispatch payload with new actionName
     return action.payload.promise.then(
       (result) => {
         const actionToDispatch = {
           type: resolve(action.type),
           payload: result,
-          meta: {
-            ...newAction.meta,
-            ...newAction.payload
-          }
+          ...nextActionBase
         };
         if (isOptimist) {
           actionToDispatch.optimist = {type: COMMIT, id: transactionID};
@@ -92,16 +109,13 @@ export default function optimistPromiseMiddleware(resolvedName = RESOLVED_NAME, 
         const actionToDispatch = {
           type: reject(action.type),
           payload: error,
-          meta: {
-            ...newAction.meta,
-            ...newAction.payload
-          }
+          ...nextActionBase
         };
         if (isOptimist) {
           actionToDispatch.optimist = {type: REVERT, id: transactionID};
         }
         dispatch(actionToDispatch);
-        return error;
+        throw error;
       }
     );
   };

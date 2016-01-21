@@ -108,24 +108,32 @@ describe('optimsit promise handling middleware', () => {
       type: resolve('ACTION_TYPE_RESOLVE'),
       payload: foobar,
       meta: {
-        foo2: 'bar2'
+        payload: {
+          foo2: 'bar2'
+        }
       },
       optimist: {type: 'COMMIT', id: 0}
     });
   });
 
   it('dispatches reject action with REVERT optimist', async () => {
-    await dispatch({
-      type: 'ACTION_TYPE_REJECT',
-      payload: {
-        promise: Promise.reject(err),
-        foo3: 'bar3',
-        foo4: 'bar4'
-      },
-      meta: {
-        optimist: true
-      }
-    });
+    try {
+      await dispatch({
+        type: 'ACTION_TYPE_REJECT',
+        payload: {
+          promise: Promise.reject(err),
+          foo3: 'bar3',
+          foo4: 'bar4'
+        },
+        meta: {
+          optimist: true
+        }
+      });
+    } catch (e) {
+      // We're not interested in the rejection. We just need to wait until all
+      // dispatching is done.
+      true;
+    }
 
     expect(next.calledTwice).to.be.true;
 
@@ -133,8 +141,10 @@ describe('optimsit promise handling middleware', () => {
       type: reject('ACTION_TYPE_REJECT'),
       payload: err,
       meta: {
-        foo3: 'bar3',
-        foo4: 'bar4'
+        payload: {
+          foo3: 'bar3',
+          foo4: 'bar4'
+        }
       },
       optimist: {type: 'REVERT', id: 0}
     });

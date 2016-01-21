@@ -82,20 +82,28 @@ describe('promise handling middleware', () => {
       type: resolve('ACTION_TYPE_RESOLVE'),
       payload: foobar,
       meta: {
-        foo2: 'bar2'
+        payload: {
+          foo2: 'bar2'
+        }
       }
     });
   });
 
   it('dispatches reject action with arguments', async () => {
-    await dispatch({
-      type: 'ACTION_TYPE_REJECT',
-      payload: {
-        promise: Promise.reject(err),
-        foo3: 'bar3',
-        foo4: 'bar4'
-      }
-    });
+    try {
+      await dispatch({
+        type: 'ACTION_TYPE_REJECT',
+        payload: {
+          promise: Promise.reject(err),
+          foo3: 'bar3',
+          foo4: 'bar4'
+        }
+      });
+    } catch (e) {
+      // We're not interested in the rejection. We just need to wait until all
+      // dispatching is done.
+      true;
+    }
 
     expect(next.calledTwice).to.be.true;
 
@@ -103,9 +111,53 @@ describe('promise handling middleware', () => {
       type: reject('ACTION_TYPE_REJECT'),
       payload: err,
       meta: {
-        foo3: 'bar3',
-        foo4: 'bar4'
+        payload: {
+          foo3: 'bar3',
+          foo4: 'bar4'
+        }
       }
+    });
+  });
+
+  it('does not overwrite any meta arguments', async () => {
+    await dispatch({
+      type: 'ACTION_TYPE_RESOLVE',
+      payload: {
+        promise: Promise.resolve(foobar),
+        foo2: 'bar2'
+      },
+      meta: {
+        foo3: 'bar3'
+      }
+    });
+
+    expect(next.calledTwice).to.be.true;
+
+    expect(next.secondCall.args[0]).to.deep.equal({
+      type: resolve('ACTION_TYPE_RESOLVE'),
+      payload: foobar,
+      meta: {
+        foo3: 'bar3',
+        payload: {
+          foo2: 'bar2'
+        }
+      }
+    });
+  });
+
+  it('does not include empty meta payload attribute', async () => {
+    await dispatch({
+      type: 'ACTION_TYPE_RESOLVE',
+      payload: {
+        promise: Promise.resolve(foobar)
+      }
+    });
+
+    expect(next.calledTwice).to.be.true;
+
+    expect(next.secondCall.args[0]).to.deep.equal({
+      type: resolve('ACTION_TYPE_RESOLVE'),
+      payload: foobar
     });
   });
 
