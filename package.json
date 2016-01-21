@@ -1,9 +1,11 @@
 {
   "name": "redux-optimist-promise",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Promise middleware for Redux with automatic binding for redux-optimist",
   "main": "lib/index.js",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "make test",
     "prepublish": "make clean build"
@@ -25,15 +27,21 @@
   "author": "Mathieu Dutour <mathieu@dutour.me>",
   "license": "MIT",
   "devDependencies": {
-    "babel": "^5.6.14",
-    "babel-core": "^5.6.15",
-    "babel-eslint": "^3.1.20",
-    "chai": "^3.0.0",
-    "chai-as-promised": "^5.1.0",
-    "eslint": "^0.24.0",
-    "eslint-config-airbnb": "0.0.6",
-    "mocha": "^2.2.5",
-    "sinon": "^1.15.4"
+    "babel": "6.3.26",
+    "babel-cli": "6.4.5",
+    "babel-core": "6.4.5",
+    "babel-eslint": "5.0.0-beta6",
+    "babel-polyfill": "6.3.14",
+    "babel-preset-es2015": "6.3.13",
+    "babel-preset-stage-0": "6.3.13",
+    "babel-register": "6.4.3",
+    "chai": "3.4.1",
+    "chai-as-promised": "5.2.0",
+    "eslint": "1.10.3",
+    "eslint-config-standard": "4.4.0",
+    "eslint-plugin-standard": "1.3.1",
+    "mocha": "2.3.4",
+    "sinon": "1.17.2"
   },
   "dependencies": {
     "flux-standard-action": "0.6.0"
