@@ -57,7 +57,7 @@ will dispatch immediately
 	payload: {
 		text: 'use redux-optimist-promise'
 	},
-  	optimist: {type: 'BEGIN', id: transactionID}
+	optimist: {type: 'BEGIN', id: transactionID}
 }
 ```
 
@@ -67,11 +67,11 @@ Assuming promise resolves with `{ id: '1', name: 'use redux-optimist-promise' }`
 	type: 'ADD_TODO_RESOLVED',
 	payload: { id: '1', name: 'use redux-optimist-promise' },
 	meta: {
-    		payload: {
-      			text: 'use redux-optimist-promise'
-    		}
+		payload: {
+			text: 'use redux-optimist-promise'
+		}
 	},
-  	optimist: {type: 'COMMIT', id: transactionID}
+	optimist: {type: 'COMMIT', id: transactionID}
 }
 ```
 
@@ -82,8 +82,8 @@ Assuming promise rejects with `Error` object, then it will dispatch
 	payload: Error,
 	meta: {
 		payload: {
-	        	text: 'use redux-optimist-promise'
-	    	}
+			text: 'use redux-optimist-promise'
+		}
 	},
 	optimist: {type: 'REVERT', id: transactionID}
 }
