@@ -18,7 +18,7 @@ First, import the middleware creator and include it in `applyMiddleware` when cr
 import {optimistPromiseMiddleware} from 'redux-optimist-promise';
 
 composeStoreWithMiddleware = applyMiddleware(
-  optimistPromiseMiddleware()
+	optimistPromiseMiddleware()
 )(createStore);
 
 ```
@@ -37,16 +37,16 @@ The below action creator, when triggered `dispatch(addTodo('use redux-optimist-p
 
 ```js
 export function addTodo(text) {
-  return {
-    type: 'ADD_TODO',
-    payload: {
-      promise: addTodoPromise(text),
-      text
-    },
-    meta: {
-      optimist: true
-    }
-  };
+	return {
+		type: 'ADD_TODO',
+		payload: {
+			promise: addTodoPromise(text),
+			text
+		},
+		meta: {
+			optimist: true
+		}
+	};
 }
 ```
 
@@ -57,7 +57,7 @@ will dispatch immediately
 	payload: {
 		text: 'use redux-optimist-promise'
 	},
-  optimist: {type: 'BEGIN', id: transactionID}
+  	optimist: {type: 'BEGIN', id: transactionID}
 }
 ```
 
@@ -67,11 +67,11 @@ Assuming promise resolves with `{ id: '1', name: 'use redux-optimist-promise' }`
 	type: 'ADD_TODO_RESOLVED',
 	payload: { id: '1', name: 'use redux-optimist-promise' },
 	meta: {
-    payload {
-      text: 'use redux-optimist-promise'
-    }
+    		payload: {
+      			text: 'use redux-optimist-promise'
+    		}
 	},
-  optimist: {type: 'COMMIT', id: transactionID}
+  	optimist: {type: 'COMMIT', id: transactionID}
 }
 ```
 
@@ -80,12 +80,12 @@ Assuming promise rejects with `Error` object, then it will dispatch
 {
 	type: 'ADD_TODO_REJECTED',
 	payload: Error,
-  meta: {
-    payload {
-      text: 'use redux-optimist-promise'
-    }
+	meta: {
+		payload: {
+	        	text: 'use redux-optimist-promise'
+	    	}
 	},
-  optimist: {type: 'REVERT', id: transactionID}
+	optimist: {type: 'REVERT', id: transactionID}
 }
 ```
 
@@ -101,7 +101,7 @@ You can configure the string being added to the action type when resolved or rej
 import {optimistPromiseMiddleware} from 'redux-optimist-promise';
 
 composeStoreWithMiddleware = applyMiddleware(
-  optimistPromiseMiddleware('_MY_RESOLVED', '_MY_REJECTED')
+	optimistPromiseMiddleware('_MY_RESOLVED', '_MY_REJECTED')
 )(createStore);
 
 ```
