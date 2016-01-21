@@ -33,15 +33,15 @@ Both fulfilled actions (resolved and rejected) will be dispatched with the resul
 
 Example:
 
-The below action creator, when triggered `dispatch(loadUser('mathieudutour'))`
+The below action creator, when triggered `dispatch(addTodo('use redux-optimist-promise'))`
 
 ```js
-export function loadUser(username) {
+export function addTodo(text) {
   return {
-    type: 'LOAD_USER',
+    type: 'ADD_TODO',
     payload: {
-      promise: loadUserServiceAndReturnPromise(username)
-      username
+      promise: addTodoPromise(text),
+      text
     },
     meta: {
       optimist: true
@@ -53,21 +53,23 @@ export function loadUser(username) {
 will dispatch immediately
 ```js
 {
-	type: 'LOAD_USER',
+	type: 'ADD_TODO',
 	payload: {
-		username: 'mathieudutour'
+		text: 'use redux-optimist-promise'
 	},
   optimist: {type: 'BEGIN', id: transactionID}
 }
 ```
 
-Assuming promise resolves with `{ id: '1', name: 'Mathieu Dutour' }`, then it will dispatch
+Assuming promise resolves with `{ id: '1', name: 'use redux-optimist-promise' }`, then it will dispatch
 ```js
 {
-	type: 'LOAD_USER_RESOLVED',
+	type: 'ADD_TODO_RESOLVED',
 	payload: { id: '1', name: 'Mathieu Dutour' },
 	meta: {
-		username: 'mathieudutour'
+    payload {
+      text: 'use redux-optimist-promise'
+    }
 	},
   optimist: {type: 'COMMIT', id: transactionID}
 }
@@ -76,10 +78,12 @@ Assuming promise resolves with `{ id: '1', name: 'Mathieu Dutour' }`, then it wi
 Assuming promise rejects with `Error` object, then it will dispatch
 ```js
 {
-	type: 'LOAD_USER_REJECTED',
+	type: 'ADD_TODO_REJECTED',
 	payload: Error,
-	meta: {
-		username: 'mathieudutour'
+  meta: {
+    payload {
+      text: 'use redux-optimist-promise'
+    }
 	},
   optimist: {type: 'REVERT', id: transactionID}
 }
