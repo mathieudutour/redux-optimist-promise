@@ -34,7 +34,7 @@ export function isRejectedAction (rejectedActionName) {
 }
 
 export function isThenAction (thenActionName) {
-  return isResolvedAction || isRejectedAction
+  return isResolvedAction(thenActionName) || isRejectedAction(thenActionName)
 }
 
 export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {

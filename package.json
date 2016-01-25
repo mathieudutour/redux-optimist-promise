@@ -1,6 +1,6 @@
 {
   "name": "redux-optimist-promise",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Promise middleware for Redux with automatic binding for redux-optimist",
   "main": "lib/index.js",
   "files": [
