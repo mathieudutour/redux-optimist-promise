@@ -25,8 +25,16 @@ export function unreject (rejectedActionName) {
   return rejectedActionName.split(REJECTED_NAME)[0]
 }
 
+export function isResolvedAction (resolvedActionName) {
+  return unresolve(resolvedActionName) !== resolvedActionName
+}
+
+export function isRejectedAction (rejectedActionName) {
+  return unreject(rejectedActionName) !== rejectedActionName
+}
+
 export function isThenAction (thenActionName) {
-  return unreject(thenActionName) !== thenActionName || unresolve(thenActionName) !== thenActionName
+  return isResolvedAction || isRejectedAction
 }
 
 export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
