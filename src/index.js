@@ -25,6 +25,10 @@ export function unreject (rejectedActionName) {
   return rejectedActionName.split(REJECTED_NAME)[0]
 }
 
+export function isThenAction (thenActionName) {
+  return unreject(thenActionName) !== thenActionName || unresolve(thenActionName) !== thenActionName
+}
+
 export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
   [RESOLVED_NAME, REJECTED_NAME] = [resolvedName, rejectedName]
   let nextTransactionID = 0

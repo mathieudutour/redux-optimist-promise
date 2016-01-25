@@ -1,4 +1,4 @@
-import middleware, { resolve, reject, unresolve, unreject } from '../src/'
+import middleware, { resolve, reject, unresolve, unreject, isThenAction } from '../src/'
 
 describe('Default name values', () => {
   it('returns the reject and resolve strings', () => {
@@ -8,6 +8,11 @@ describe('Default name values', () => {
   it('returns the actionType from the rejected and resolved strings', () => {
     expect(unresolve('MY_ACTION_RESOLVED')).to.equal('MY_ACTION')
     expect(unreject('MY_ACTION_REJECTED')).to.equal('MY_ACTION')
+  })
+  it('returns wether the actionType is a rejected or resolved strings', () => {
+    expect(isThenAction('MY_ACTION_RESOLVED')).to.equal(true)
+    expect(isThenAction('MY_ACTION_REJECTED')).to.equal(true)
+    expect(isThenAction('MY_ACTION')).to.equal(false)
   })
 })
 
@@ -22,5 +27,10 @@ describe('Custom name values', () => {
   it('returns the actionType from the rejected and resolved strings', () => {
     expect(unresolve('MY_ACTION_MY_RESOLVED')).to.equal('MY_ACTION')
     expect(unreject('MY_ACTION_MY_REJECTED')).to.equal('MY_ACTION')
+  })
+  it('returns wether the actionType is a rejected or resolved strings', () => {
+    expect(isThenAction('MY_ACTION_MY_RESOLVED')).to.equal(true)
+    expect(isThenAction('MY_ACTION_MY_REJECTED')).to.equal(true)
+    expect(isThenAction('MY_ACTION')).to.equal(false)
   })
 })
