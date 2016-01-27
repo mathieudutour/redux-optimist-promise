@@ -87,7 +87,7 @@ export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME,
     const skipOptimist = (action.meta || {}).skipOptimist
 
     if (!skipOptimist) {
-      dispatch(newAction)
+      next(newAction)
     }
 
     // Create a base for the next action containing the metadata.
