@@ -29,10 +29,8 @@ describe('optimsit promise handling middleware', () => {
   it('dispatches first action before promise with BEGIN optimist tag without meta', () => {
     dispatch({
       type: 'ACTION_TYPE',
-      payload: {
-        promise: new Promise(() => {})
-      },
       meta: {
+        promise: new Promise(() => {}),
         optimist: true
       }
     })
@@ -49,9 +47,10 @@ describe('optimsit promise handling middleware', () => {
     dispatch({
       type: 'ACTION_TYPE',
       payload: {
-        promise: new Promise(() => {})
+        bar: 'foo'
       },
       meta: {
+        promise: new Promise(() => {}),
         optimist: true,
         foo: 'bar'
       }
@@ -61,6 +60,9 @@ describe('optimsit promise handling middleware', () => {
 
     expect(next.firstCall.args[0]).to.deep.equal({
       type: 'ACTION_TYPE',
+      payload: {
+        bar: 'foo'
+      },
       meta: {
         foo: 'bar'
       },
@@ -71,10 +73,8 @@ describe('optimsit promise handling middleware', () => {
   it('does NOT dispatch first action before promise if skipOptimist meta', async () => {
     await dispatch({
       type: 'ACTION_TYPE',
-      payload: {
-        promise: Promise.resolve(foobar)
-      },
       meta: {
+        promise: Promise.resolve(foobar),
         skipOptimist: true
       }
     })
@@ -94,10 +94,10 @@ describe('optimsit promise handling middleware', () => {
     await dispatch({
       type: 'ACTION_TYPE_RESOLVE',
       payload: {
-        promise: Promise.resolve(foobar),
         foo2: 'bar2'
       },
       meta: {
+        promise: Promise.resolve(foobar),
         optimist: true
       }
     })
@@ -121,11 +121,11 @@ describe('optimsit promise handling middleware', () => {
       await dispatch({
         type: 'ACTION_TYPE_REJECT',
         payload: {
-          promise: Promise.reject(err),
           foo3: 'bar3',
           foo4: 'bar4'
         },
         meta: {
+          promise: Promise.reject(err),
           optimist: true
         }
       })

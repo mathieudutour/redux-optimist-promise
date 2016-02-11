@@ -29,7 +29,7 @@ describe('promise handling middleware', () => {
   it('dispatches first action before promise without arguments', () => {
     dispatch({
       type: 'ACTION_TYPE',
-      payload: {
+      meta: {
         promise: new Promise(() => {})
       }
     })
@@ -45,8 +45,10 @@ describe('promise handling middleware', () => {
     dispatch({
       type: 'ACTION_TYPE',
       payload: {
-        promise: new Promise(() => {}),
         foo: 'bar'
+      },
+      meta: {
+        promise: new Promise(() => {})
       }
     })
 
@@ -64,8 +66,10 @@ describe('promise handling middleware', () => {
     await dispatch({
       type: 'ACTION_TYPE_RESOLVE',
       payload: {
-        promise: Promise.resolve(foobar),
         foo2: 'bar2'
+      },
+      meta: {
+        promise: Promise.resolve(foobar)
       }
     })
 
@@ -87,9 +91,11 @@ describe('promise handling middleware', () => {
       await dispatch({
         type: 'ACTION_TYPE_REJECT',
         payload: {
-          promise: Promise.reject(err),
           foo3: 'bar3',
           foo4: 'bar4'
+        },
+        meta: {
+          promise: Promise.reject(err)
         }
       })
     } catch (e) {
@@ -116,10 +122,10 @@ describe('promise handling middleware', () => {
     await dispatch({
       type: 'ACTION_TYPE_RESOLVE',
       payload: {
-        promise: Promise.resolve(foobar),
         foo2: 'bar2'
       },
       meta: {
+        promise: Promise.resolve(foobar),
         foo3: 'bar3'
       }
     })
@@ -141,7 +147,7 @@ describe('promise handling middleware', () => {
   it('does not include empty meta payload attribute', async () => {
     await dispatch({
       type: 'ACTION_TYPE_RESOLVE',
-      payload: {
+      meta: {
         promise: Promise.resolve(foobar)
       }
     })
@@ -159,7 +165,7 @@ describe('promise handling middleware', () => {
 
     let dispatchedResult = dispatch({
       type: 'ACTION_TYPE_RESOLVE',
-      payload: {
+      meta: {
         promise: promiseDispatched,
         foo2: 'bar2'
       }
@@ -173,7 +179,7 @@ describe('promise handling middleware', () => {
 
     let dispatchedResult = dispatch({
       type: 'ACTION_TYPE_RESOLVE',
-      payload: {
+      meta: {
         promise: promiseDispatched,
         foo2: 'bar2'
       }
@@ -186,7 +192,7 @@ describe('promise handling middleware', () => {
 
     let dispatchedResult = dispatch({
       type: 'ACTION_TYPE_REJECT',
-      payload: {
+      meta: {
         promise: promiseDispatched,
         foo2: 'bar2'
       }

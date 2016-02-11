@@ -40,12 +40,12 @@ export function isThenAction (thenActionName) {
 export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
   [RESOLVED_NAME, REJECTED_NAME] = [resolvedName, rejectedName]
   let nextTransactionID = 0
-  return ({ dispatch }) => next => action => {
-    if (!isFSA(action) || !action.payload || !isPromise(action.payload.promise)) {
+  return ({ dispatch }) => (next) => (action) => {
+    if (!isFSA(action) || !action.meta || !isPromise(action.meta.promise)) {
       return next(action)
     }
 
-    const isOptimist = (action.meta || {}).optimist
+    const isOptimist = action.meta.optimist
 
     let transactionID
 
@@ -53,14 +53,11 @@ export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME,
       transactionID = nextTransactionID++
     }
 
-    // (1) Dispatch actionName with payload with arguments apart from promise
+    // (1) Dispatch actionName with meta with arguments apart from promise
 
     // Clone original action
     let newAction = {
-      type: action.type,
-      payload: {
-        ...action.payload
-      },
+      ...action,
       meta: {
         ...action.meta
       }
@@ -72,19 +69,14 @@ export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME,
       delete newAction.meta.optimist
     }
 
-    if (Object.keys(newAction.meta).length === 0) {
+    if (Object.keys(newAction.meta).length === 1) {
       delete newAction.meta
-    }
-
-    if (Object.keys(newAction.payload).length === 1) {
-      // No arguments beside promise, remove all payload
-      delete newAction.payload
     } else {
       // Other arguments, delete promise and optimist only
-      delete newAction.payload.promise
+      delete newAction.meta.promise
     }
 
-    const skipOptimist = (action.meta || {}).skipOptimist
+    const skipOptimist = action.meta.skipOptimist
 
     if (!skipOptimist) {
       next(newAction)
@@ -94,15 +86,12 @@ export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME,
     let nextActionBase = {
       meta: {
         ...newAction.meta,
-        payload: {
-          ...newAction.payload
-        }
+        payload: newAction.payload
       }
     }
 
-    if (Object.keys(nextActionBase.meta.payload).length === 0) {
-      // No arguments were given beside the promise, no need to include them
-      // in the meta.
+    if (!nextActionBase.meta.payload) {
+      // No payload, no need to include them in the meta.
       delete nextActionBase.meta.payload
     }
     if (Object.keys(nextActionBase.meta).length === 0) {
@@ -111,7 +100,7 @@ export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME,
     }
 
     // (2) Listen to promise and dispatch payload with new actionName
-    return action.payload.promise.then(
+    return action.meta.promise.then(
       (result) => {
         const actionToDispatch = {
           type: resolve(action.type),
@@ -123,7 +112,7 @@ export default function optimistPromiseMiddleware (resolvedName = RESOLVED_NAME,
         }
         dispatch(actionToDispatch)
         return result
-      },
+      }).catch(
       (error) => {
         const actionToDispatch = {
           type: reject(action.type),

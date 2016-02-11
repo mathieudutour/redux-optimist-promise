@@ -23,11 +23,11 @@ composeStoreWithMiddleware = applyMiddleware(
 
 ```
 
-To use the middleware, dispatch a `promise` property and optional additional properties within the `payload` of the action and specify the action `type` string as you normally do.
+To use the middleware, dispatch a `promise` property and optional additional properties within the `meta` of the action and specify the action `type` string as you normally do.
 
 To add the optimist tag, add a `optimist` field in the `meta` of the action.
 
-The pending action is dispatched immediately, with `type` the same as the original dispatching action with all original `payload` properties apart from the `promise` as the payload object (those are useful for optimistic updates). The resolve action is dispatched only if the promise is resolved, e.g., if it was successful; and the rejected action is dispatched only if the promise is rejected, e.g., if an error occurred.
+The pending action is dispatched immediately, with `type` the same as the original dispatching action with all original `meta` properties apart from the `promise` as the meta object (those are useful for optimistic updates). The resolve action is dispatched only if the promise is resolved, e.g., if it was successful; and the rejected action is dispatched only if the promise is rejected, e.g., if an error occurred.
 
 Both fulfilled actions (resolved and rejected) will be dispatched with the result of the promise as the payload object and all other remaining properties will be dispatched inside the `meta` property. More specifically, in the case of a rejected promise, an `error` is returned in the payload property. Also those fulfilled actions will have the original `type` added by a suffix (default is `_RESOLVED` for resolved and `_REJECTED` for rejected).
 
@@ -40,10 +40,10 @@ export function addTodo(text) {
 	return {
 		type: 'ADD_TODO',
 		payload: {
-			promise: addTodoPromise(text),
 			text
 		},
 		meta: {
+			promise: addTodoPromise(text),
 			optimist: true
 		}
 	};
