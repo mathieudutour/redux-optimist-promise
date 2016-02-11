@@ -5,7 +5,7 @@ import { resolve, reject } from '../src/'
 function noop () {}
 const GIVE_ME_META = 'GIVE_ME_META'
 function metaMiddleware () {
-  return next => action =>
+  return (next) => (action) =>
     action.type === GIVE_ME_META
       ? next({ ...action, meta: 'here you go' })
       : next(action)
