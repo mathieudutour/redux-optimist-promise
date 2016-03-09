@@ -15,7 +15,7 @@ npm install --save redux-optimist-promise
 First, import the middleware creator and include it in `applyMiddleware` when creating the Redux store. **You need to call it as a function (See later why on configuration section below):**
 
 ```js
-import {optimistPromiseMiddleware} from 'redux-optimist-promise';
+import optimistPromiseMiddleware from 'redux-optimist-promise';
 
 composeStoreWithMiddleware = applyMiddleware(
 	optimistPromiseMiddleware()
@@ -98,7 +98,7 @@ The middleware doesn't include the original promise in the 3 processed actions a
 You can configure the string being added to the action type when resolved or rejected by declaring it when initializing the middleware, so considering the example above, if you do
 
 ```js
-import {optimistPromiseMiddleware} from 'redux-optimist-promise';
+import optimistPromiseMiddleware from 'redux-optimist-promise';
 
 composeStoreWithMiddleware = applyMiddleware(
 	optimistPromiseMiddleware('_MY_RESOLVED', '_MY_REJECTED')
