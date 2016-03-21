@@ -1,40 +1,28 @@
+import test from 'ava'
 import middleware, { resolve, reject, unresolve, unreject, isThenAction, isResolvedAction, isRejectedAction } from '../src/'
 
-describe('Default name values', () => {
-  it('returns the reject and resolve strings', () => {
-    expect(resolve('MY_ACTION')).to.equal('MY_ACTION_RESOLVED')
-    expect(reject('MY_ACTION')).to.equal('MY_ACTION_REJECTED')
-  })
-  it('returns the actionType from the rejected and resolved strings', () => {
-    expect(unresolve('MY_ACTION_RESOLVED')).to.equal('MY_ACTION')
-    expect(unreject('MY_ACTION_REJECTED')).to.equal('MY_ACTION')
-  })
-  it('returns wether the actionType is a rejected or resolved strings', () => {
-    expect(isResolvedAction('MY_ACTION_RESOLVED')).to.equal(true)
-    expect(isThenAction('MY_ACTION_RESOLVED')).to.equal(true)
-    expect(isRejectedAction('MY_ACTION_REJECTED')).to.equal(true)
-    expect(isThenAction('MY_ACTION_REJECTED')).to.equal(true)
-    expect(isThenAction('MY_ACTION')).to.equal(false)
-  })
+test('Default name values', (t) => {
+  t.is(resolve('MY_ACTION'), 'MY_ACTION_RESOLVED')
+  t.is(reject('MY_ACTION'), 'MY_ACTION_REJECTED')
+  t.is(unresolve('MY_ACTION_RESOLVED'), 'MY_ACTION')
+  t.is(unreject('MY_ACTION_REJECTED'), 'MY_ACTION')
+  t.is(isResolvedAction('MY_ACTION_RESOLVED'), true)
+  t.is(isThenAction('MY_ACTION_RESOLVED'), true)
+  t.is(isRejectedAction('MY_ACTION_REJECTED'), true)
+  t.is(isThenAction('MY_ACTION_REJECTED'), true)
+  t.is(isThenAction('MY_ACTION'), false)
 })
 
-describe('Custom name values', () => {
-  beforeEach(() => {
-    middleware('_MY_RESOLVED', '_MY_REJECTED')
-  })
-  it('returns the reject and resolve strings', () => {
-    expect(resolve('MY_ACTION')).to.equal('MY_ACTION_MY_RESOLVED')
-    expect(reject('MY_ACTION')).to.equal('MY_ACTION_MY_REJECTED')
-  })
-  it('returns the actionType from the rejected and resolved strings', () => {
-    expect(unresolve('MY_ACTION_MY_RESOLVED')).to.equal('MY_ACTION')
-    expect(unreject('MY_ACTION_MY_REJECTED')).to.equal('MY_ACTION')
-  })
-  it('returns wether the actionType is a rejected or resolved strings', () => {
-    expect(isResolvedAction('MY_ACTION_MY_RESOLVED')).to.equal(true)
-    expect(isThenAction('MY_ACTION_MY_RESOLVED')).to.equal(true)
-    expect(isRejectedAction('MY_ACTION_MY_REJECTED')).to.equal(true)
-    expect(isThenAction('MY_ACTION_MY_REJECTED')).to.equal(true)
-    expect(isThenAction('MY_ACTION')).to.equal(false)
-  })
+test('Custom name values', (t) => {
+  middleware('_MY_RESOLVED', '_MY_REJECTED')
+
+  t.is(resolve('MY_ACTION'), 'MY_ACTION_MY_RESOLVED')
+  t.is(reject('MY_ACTION'), 'MY_ACTION_MY_REJECTED')
+  t.is(unresolve('MY_ACTION_MY_RESOLVED'), 'MY_ACTION')
+  t.is(unreject('MY_ACTION_MY_REJECTED'), 'MY_ACTION')
+  t.is(isResolvedAction('MY_ACTION_MY_RESOLVED'), true)
+  t.is(isThenAction('MY_ACTION_MY_RESOLVED'), true)
+  t.is(isRejectedAction('MY_ACTION_MY_REJECTED'), true)
+  t.is(isThenAction('MY_ACTION_MY_REJECTED'), true)
+  t.is(isThenAction('MY_ACTION'), false)
 })
