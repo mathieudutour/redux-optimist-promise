@@ -32,6 +32,6 @@
     "@mathieudutour/js-fatigue": "1.0.2"
   },
   "dependencies": {
-    "flux-standard-action": "^0.6.1"
+    "flux-standard-action": "^1.0.0"
   }
 }
