@@ -101,7 +101,11 @@ You can configure the string being added to the action type when resolved or rej
 import optimistPromiseMiddleware from 'redux-optimist-promise';
 
 composeStoreWithMiddleware = applyMiddleware(
-	optimistPromiseMiddleware('_MY_RESOLVED', '_MY_REJECTED')
+	optimistPromiseMiddleware({
+		throwOnReject: true, // wether to throw when there is an error or not
+		resolvedName:'_MY_RESOLVED',
+		rejectedName: '_MY_REJECTED'
+	})
 )(createStore);
 
 ```
