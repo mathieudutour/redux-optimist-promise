@@ -37,7 +37,7 @@ export function isThenAction (thenActionName) {
   return isResolvedAction(thenActionName) || isRejectedAction(thenActionName)
 }
 
-export default function optimistPromiseMiddleware (throwOnReject = true, resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME) {
+export default function optimistPromiseMiddleware ({throwOnReject = true, resolvedName = RESOLVED_NAME, rejectedName = REJECTED_NAME} = {}) {
   [RESOLVED_NAME, REJECTED_NAME] = [resolvedName, rejectedName]
   let nextTransactionID = 0
   return ({ dispatch }) => (next) => (action) => {
