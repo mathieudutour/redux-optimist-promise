@@ -1,12 +1,13 @@
 {
   "name": "redux-optimist-promise",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Promise middleware for Redux with automatic binding for redux-optimist",
   "main": "build/index.js",
   "jsnext:main": "src/index.js",
   "files": [
     "build",
-    "src"
+    "src",
+    "index.d.ts"
   ],
   "scripts": {
     "test": "make test",
