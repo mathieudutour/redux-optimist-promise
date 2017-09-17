@@ -1,8 +1,5 @@
-/// <reference types="redux" />
-
-export = ReduxOptimistPromise
-
-declare namespace ReduxOptimistPromise {
+declare module 'redux-optimist-promise' {
+  import { Middleware } from 'redux'
   export function resolve(actionName: string): string
   export function unresolve(actionName: string): string
 
@@ -13,5 +10,9 @@ declare namespace ReduxOptimistPromise {
   export function isRejectedAction(actionName: string): boolean
   export function isThenAction(actionName: string): boolean
 
-  export default function(options?: {throwOnReject?: boolean, resolvedName?: string, rejectedName?: string}): Redux.Middleware
+  export default function(options?: {
+    throwOnReject?: boolean
+    resolvedName?: string
+    rejectedName?: string
+  }): Middleware
 }
