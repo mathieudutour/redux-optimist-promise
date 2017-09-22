@@ -4,7 +4,7 @@ redux-optimist-promise
 [![build status](https://img.shields.io/travis/mathieudutour/redux-optimist-promise/master.svg?style=flat-square)](https://travis-ci.org/mathieudutour/redux-optimist-promise)
 [![npm version](https://img.shields.io/npm/v/redux-optimist-promise.svg?style=flat-square)](https://www.npmjs.com/package/redux-optimist-promise)
 
-[FSA](https://github.com/acdlite/flux-standard-action)-compliant promise [middleware](http://rackt.github.io/redux/docs/advanced/Middleware.html) middleware for Redux and automatically add necessary for [redux-optimist](https://github.com/ForbesLindesay/redux-optimist).
+[FSA](https://github.com/acdlite/flux-standard-action)-compliant promise [middleware](http://rackt.github.io/redux/docs/advanced/Middleware.html) for Redux and automatically add necessary for [redux-optimist](https://github.com/ForbesLindesay/redux-optimist).
 
 ```js
 npm install --save redux-optimist-promise
